@@ -177,7 +177,7 @@ PrefabInstance:
     - target: {fileID: 58441283671200497, guid: 8437a4b3cde30ca40b6aba7436896449, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d4673ae9e8bfe894789673f3609fba98, type: 2}
+      objectReference: {fileID: 2100000, guid: 8d530ffe6c4968843806085897955b9d, type: 2}
     - target: {fileID: 919132149155446097, guid: 8437a4b3cde30ca40b6aba7436896449, type: 3}
       propertyPath: m_Name
       value: Big Vegas
@@ -219,7 +219,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 158475394}
   serializedVersion: 2
-  m_Mass: 2
+  m_Mass: 140
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -245,6 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  rotationSpeed: 2
 --- !u!1 &523373814
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d4673ae9e8bfe894789673f3609fba98, type: 2}
+  - {fileID: 2100000, guid: c181c23a6120fbe4aadd5bb53a58dd78, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
