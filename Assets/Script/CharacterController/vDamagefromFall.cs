@@ -8,6 +8,7 @@ public class vDamagefromFall : MonoBehaviour
     private bool alive;
     private float healpoint;
     public float speed;
+    public float rot;
     private Rigidbody rigidbody;
     public GameObject gravestone;
     private Camera cam;
@@ -17,10 +18,12 @@ public class vDamagefromFall : MonoBehaviour
         alive = true;
         healpoint = 100;
         rigidbody = GetComponent<Rigidbody>();
+        rot = 0;
     }
 
     void Update()
     {
+        transform.rotation = new Quaternion(rot,transform.rotation.y,transform.rotation.z,transform.rotation.w);
         if (healpoint <= 0)
         {
             alive = false;
@@ -53,10 +56,10 @@ public class vDamagefromFall : MonoBehaviour
             {
                 healpoint += 3*speed;
             }
+            speed = 0;
         }
-        speed = 0;
-        //speed = 0;
-        Debug.Log(healpoint);
+ 
     }
+   
 }
   
