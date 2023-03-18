@@ -9,15 +9,14 @@ public class vDamagefromFall : MonoBehaviour
     private float healpoint;
     public float speed;
     private Rigidbody rigidbody;
-    private Transform gravestone;
-    public float rotx;
+    public GameObject gravestone;
+    private Camera cam;
 
     void Start()
     {
         alive = true;
         healpoint = 100;
         rigidbody = GetComponent<Rigidbody>();
-        rotx = 0;
     }
 
     void Update()
@@ -28,17 +27,21 @@ public class vDamagefromFall : MonoBehaviour
         }
         if (!alive)
         {
-            gravestone = gameObject.transform.GetChild(2);
-            //gameObject.transform.DetachChildren();
-            gravestone.gameObject.SetActive(true);
-            //gameObject.SetActive(true);
+            Instantiate(gravestone, new Vector3(0, 0, 0), Quaternion.identity);
+            gravestone = GameObject.Find("gravestone(Clone)");
+
+            gravestone.transform.position = gameObject.transform.position;
+            gravestone.transform.GetChild(0).gameObject.SetActive(false);
+            gravestone.transform.GetChild(2).gameObject.SetActive(false);
+
+            Destroy(gameObject);
+            GameObject cam = GameObject.Find("Camera");
+            cam.transform.position = gravestone.transform.position + new Vector3(-0.5f,2.5f,-2);
         }
         if (rigidbody.velocity.y < speed)
         {
             speed = rigidbody.velocity.y;
         }
-        //rotx += 0.2f;
-        rigidbody.rotation = Quaternion.EulerAngles(rotx, rigidbody.rotation.y, rigidbody.rotation.z);
         
     }
 
