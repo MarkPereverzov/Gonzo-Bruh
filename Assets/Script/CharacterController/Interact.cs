@@ -1,3 +1,4 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -37,7 +38,14 @@ public class Interact : MonoBehaviour
                     choosenDevice = null;
                 }
             }
+            cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0.5490196f);
         }
+            else if (currentCollision != null)
+            {
+                CommonDevice cd = currentCollision.transform.GetComponent<CommonDevice>();
+            cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0f);
+        }
+
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -49,6 +57,5 @@ public class Interact : MonoBehaviour
     private void OnTriggerExit(Collider collision)
     {
          isArea = false;
-        currentCollision = null;
     }
 }

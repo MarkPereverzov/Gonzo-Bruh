@@ -38,7 +38,7 @@ public class CommonGenerator : CommonDevice
                 generatorStart.Play(0);
             foreach (CommonDevice cd in slot)
                 cd.e_OnGenerating.Invoke(production);
-            fuel -= 0.1f;
+            fuel -= 0.001f;
         }
         else
         {
@@ -49,12 +49,19 @@ public class CommonGenerator : CommonDevice
     }
     public override void Indication()
     {
-        if (active)
-            transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.red;
-        else
+        if (active) {
             transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.green;
-        if(fuel < 1)
+            Transform line = transform.GetChild(6);
+            line.localScale = new Vector3(line.localScale.x, line.localScale.y, (-17 * fuel) / 100);
+            line.localPosition = new Vector3(line.localPosition.x, ((0.27f * fuel) / 100), line.localPosition.z);
+        }
+        else {
+            transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.red;
+        }
+        if (fuel < 1)
+        {
             transform.GetChild(6).GetComponent<MeshRenderer>().material.color = Color.black;
+        }
         else
             transform.GetChild(6).GetComponent<MeshRenderer>().material.color = Color.red;
     }
@@ -62,7 +69,12 @@ public class CommonGenerator : CommonDevice
     void Update()
     {
         Indication();
-        if (active)
+        if (active) {
             GeneratePower();
+        }
+        else
+        {
+            generatorStart.Stop();
+        }
     }
 }
