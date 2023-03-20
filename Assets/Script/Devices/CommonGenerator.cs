@@ -4,13 +4,15 @@ using System.Collections.Generic;
 using System.Reflection.Emit;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class CommonGenerator : CommonDevice
 {
     public float fuel;
     public float production;
     private AudioSource generatorStart;
-    void Start()
+    public Text m_MyText;
+    void Start()    
     {
         generatorStart = GetComponent<AudioSource>();
 
@@ -29,6 +31,8 @@ public class CommonGenerator : CommonDevice
         e_OnActivation.AddListener(OnActivation);
         e_OnConnect.AddListener(OnConnect);
         e_OnGenerating.AddListener(OnGenerating);
+
+        m_MyText.text = "This is my text";
     }
     public virtual void GeneratePower()
     {
@@ -54,6 +58,7 @@ public class CommonGenerator : CommonDevice
             Transform line = transform.GetChild(6);
             line.localScale = new Vector3(line.localScale.x, line.localScale.y, (-17 * fuel) / 100);
             line.localPosition = new Vector3(line.localPosition.x, ((0.27f * fuel) / 100), line.localPosition.z);
+
         }
         else {
             transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.red;
@@ -75,6 +80,10 @@ public class CommonGenerator : CommonDevice
         else
         {
             generatorStart.Stop();
+        }
+        if (Input.GetKey(KeyCode.Space))
+        {
+            m_MyText.text = "My text has now changed.";
         }
     }
 }
