@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
+using TMPro;
 //using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Events;
+
 
 public class CommonDevice : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class CommonDevice : MonoBehaviour
         Generator
     }
     public bool isPowered;
+    public bool inArea;
     public float powerNeed;
     public bool active;
     public Type type;
@@ -21,31 +24,48 @@ public class CommonDevice : MonoBehaviour
     private CommonGenerator energySlot;
     public List<CommonDevice> slot;
 
+    public string m_StatusText;
+
     //public bool slot[4];
     public UnityEvent e_OnActivation;
+    public UnityEvent<bool> e_OnShowHint;
     public UnityEvent<CommonDevice> e_OnConnect;
     public UnityEvent<float> e_OnGenerating;
-    void Start()
-    {
-        isPowered = false;
-        powerNeed = 100;
-        active = false;
-        type = Type.Machine;
 
+    protected void InitEvents()
+    {
         if (e_OnActivation == null)
             e_OnActivation = new UnityEvent();
         if (e_OnConnect == null)
             e_OnConnect = new UnityEvent<CommonDevice>();
         if (e_OnGenerating == null)
             e_OnGenerating = new UnityEvent<float>();
+        if (e_OnShowHint == null)
+            e_OnShowHint = new UnityEvent<bool>();
 
         e_OnActivation.AddListener(OnActivation);
+        e_OnShowHint.AddListener(OnShowHint);
         e_OnConnect.AddListener(OnConnect);
         e_OnGenerating.AddListener(OnGenerating);
+
+        m_StatusText = "Activated: <color=red>OFF";
+    }
+    void Start()
+    {
+        isPowered = false;
+        powerNeed = 100;
+        active = false;
+        type = Type.Machine;
+        InitEvents();
     }
 
-    public virtual void Indication()
+    protected virtual void UpdateOverlay()
     {
+        GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().SetText(m_StatusText);
+    }
+    protected virtual void Indication()
+    {
+        if (inArea) UpdateOverlay();//Debug.Log(GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.name);//GetComponent<TextMeshProUGUI>().SetText(m_StatusText.text);
         if (active)
             transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
         else
@@ -65,15 +85,21 @@ public class CommonDevice : MonoBehaviour
         Indication();
     }
 
-    public void OnActivation() 
+    protected void OnActivation() 
     {
         Debug.Log("Device activated: " + type);
         if (active)
+        {
             active = false;
-        else 
+            m_StatusText = "Activated: <color=red>OFF";
+        }
+        else
+        {
             active = true;
+            m_StatusText = "Activated: <color=green>ON";
+        }
     }
-    public void OnConnect(CommonDevice cd)
+    protected void OnConnect(CommonDevice cd)
     {
         Debug.Log("Called Connect" + type);
         if (cd.type == Type.Generator)
@@ -91,19 +117,24 @@ public class CommonDevice : MonoBehaviour
             slot.Add(cd);
             Debug.Log("Added element" + cd.type);
         }
-       
+
     }
-    public void OnGenerating(float powerCount)
+    protected void OnGenerating(float powerCount)
     {
         powerGet = powerCount;
         if (powerGet >= powerNeed)
         {
             isPowered = true;
         }
-        else 
+        else
         {
             isPowered = false;
         }
+    }
+    protected void OnShowHint(bool state)
+    {
+        inArea = state;
+        GameObject.Find(gameObject.name + "/UI").GetComponent<Canvas>().enabled = state;
     }
 
 }

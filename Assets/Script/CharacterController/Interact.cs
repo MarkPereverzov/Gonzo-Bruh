@@ -38,24 +38,28 @@ public class Interact : MonoBehaviour
                     choosenDevice = null;
                 }
             }
-            cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0.5490196f);
+            //cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0.5490196f);
         }
             else if (currentCollision != null)
             {
                 CommonDevice cd = currentCollision.transform.GetComponent<CommonDevice>();
-            cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0f);
+            //cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0f);
         }
 
     }
 
     private void OnTriggerEnter(Collider collision)
     {
+        CommonDevice cd = collision.transform.GetComponent<CommonDevice>();
         isArea = true;
+        cd.e_OnShowHint.Invoke(true);
         currentCollision = collision;
         //Debug.Log("Trigger enter type " + collision.transform.GetComponent<CommonDevice>().type);
     }
     private void OnTriggerExit(Collider collision)
     {
-         isArea = false;
+        CommonDevice cd = collision.transform.GetComponent<CommonDevice>();
+        isArea = false;
+        cd.e_OnShowHint.Invoke(false);
     }
 }
