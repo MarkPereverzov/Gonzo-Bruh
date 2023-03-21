@@ -48,7 +48,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6664592502021773}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -742,10 +742,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPowered: 0
+  inArea: 0
   powerNeed: 0
   active: 0
   type: 0
   slot: []
+  m_StatusText: []
   e_OnActivation:
     m_PersistentCalls:
       m_Calls: []

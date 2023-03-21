@@ -24,7 +24,7 @@ public class CommonDevice : MonoBehaviour
     private CommonGenerator energySlot;
     public List<CommonDevice> slot;
 
-    public string m_StatusText;
+    public string[] m_StatusText;
 
     //public bool slot[4];
     public UnityEvent e_OnActivation;
@@ -48,7 +48,9 @@ public class CommonDevice : MonoBehaviour
         e_OnConnect.AddListener(OnConnect);
         e_OnGenerating.AddListener(OnGenerating);
 
-        m_StatusText = "Activated: <color=red>OFF";
+        m_StatusText = new string[10];
+
+        m_StatusText[0] = "Activated: <color=red>OFF";
     }
     void Start()
     {
@@ -57,32 +59,36 @@ public class CommonDevice : MonoBehaviour
         active = false;
         type = Type.Machine;
         InitEvents();
+        m_StatusText[1] = "\n<color=white>Powered: <color=red>False";
     }
 
-    protected virtual void UpdateOverlay()
+    protected void UpdateOverlay()
     {
-        GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().SetText(m_StatusText);
+        string outMessage = "";
+
+        foreach (string str in m_StatusText)
+            if(str != null) outMessage += str;
+
+        GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().SetText(outMessage);
     }
     protected virtual void Indication()
     {
         if (inArea) UpdateOverlay();//Debug.Log(GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.name);//GetComponent<TextMeshProUGUI>().SetText(m_StatusText.text);
         if (active)
-            transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
-        else
             transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.green;
+        else
+            transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
 
         if (isPowered)
             transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Color.green;
         else
             transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Color.red;
-
-        if (powerGet == 0)
-            transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Color.white;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Indication();
+
     }
 
     protected void OnActivation() 
@@ -91,12 +97,12 @@ public class CommonDevice : MonoBehaviour
         if (active)
         {
             active = false;
-            m_StatusText = "Activated: <color=red>OFF";
+            m_StatusText[0] = "Activated: <color=red>OFF";
         }
         else
         {
             active = true;
-            m_StatusText = "Activated: <color=green>ON";
+            m_StatusText[0] = "Activated: <color=green>ON";
         }
     }
     protected void OnConnect(CommonDevice cd)
@@ -117,7 +123,10 @@ public class CommonDevice : MonoBehaviour
             slot.Add(cd);
             Debug.Log("Added element" + cd.type);
         }
-
+        if (m_StatusText[2] == null)
+            m_StatusText[2] = "\n<color=white>Connected with: <#00025E>" + cd.type;
+        else
+            m_StatusText[2] +=  "<#ffffff>,\n<#00025E>" + cd.type;
     }
     protected void OnGenerating(float powerCount)
     {
@@ -125,11 +134,14 @@ public class CommonDevice : MonoBehaviour
         if (powerGet >= powerNeed)
         {
             isPowered = true;
+            m_StatusText[1] = "\n<color=white>Powered: <color=green>True <sprite index=0>";
         }
         else
         {
             isPowered = false;
+            m_StatusText[1] = "\n<color=white>Powered: <color=red>False";
         }
+        Debug.Log("generating");
     }
     protected void OnShowHint(bool state)
     {

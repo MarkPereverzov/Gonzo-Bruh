@@ -20,13 +20,22 @@ public class CommonGenerator : CommonDevice
     }
     public virtual void GeneratePower()
     {
-        if (fuel > 0)
+        if (fuel > 0 && active)
         {
             if (!generatorStart.isPlaying)
                 generatorStart.Play(0);
+            float tmp = production;
             foreach (CommonDevice cd in slot)
-                cd.e_OnGenerating.Invoke(production);
+            {
+                if (cd.active)
+                {
+                    cd.e_OnGenerating.Invoke(tmp);
+                    tmp -= cd.powerNeed;
+                    tmp = tmp < 0 ? 0 : tmp;
+                }
+            }
             fuel -= 0.02f;
+            m_StatusText[1] = "\n<color=white>Fuel: <color=black>" + (int)fuel;
         }
         else
         {
@@ -34,11 +43,6 @@ public class CommonGenerator : CommonDevice
             foreach (CommonDevice cd in slot)
                 cd.e_OnGenerating.Invoke(0);
         }
-    }
-
-    protected virtual void UpdateOverlay()
-    {
-        GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().SetText(m_StatusText + "\n<color=white>Fuel: <color=black>" + (int)fuel);
     }
     protected override void Indication()
     {
@@ -67,13 +71,6 @@ public class CommonGenerator : CommonDevice
     }
     void FixedUpdate()
     {
-        if (active)
-        {
-            GeneratePower();
-        }
-        else
-        {
-            generatorStart.Stop();
-        }
+        GeneratePower();
     }
 }
