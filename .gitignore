@@ -64,3 +64,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+*.zip
+"Gonzo bruh_Data"/
+UserSettings/
+
+
