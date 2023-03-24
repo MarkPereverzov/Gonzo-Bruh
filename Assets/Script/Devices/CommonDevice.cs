@@ -57,6 +57,7 @@ public class CommonDevice : MonoBehaviour
         isPowered = false;
         powerNeed = 100;
         active = false;
+
         type = Type.Machine;
         InitEvents();
         m_StatusText[1] = "\n<color=white>Powered: <color=red>False";
@@ -80,9 +81,9 @@ public class CommonDevice : MonoBehaviour
             transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Color.red;
 
         if (isPowered)
-            transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Color.green;
+            transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.green;
         else
-            transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Color.red;
+            transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     void FixedUpdate()
