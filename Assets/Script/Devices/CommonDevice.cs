@@ -85,7 +85,7 @@ public class CommonDevice : MonoBehaviour
         else
             transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Color.red;
     }
-
+    
     void FixedUpdate()
     {
         Indication();
