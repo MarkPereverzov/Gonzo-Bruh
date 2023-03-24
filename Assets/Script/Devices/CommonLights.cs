@@ -1,4 +1,4 @@
-/*using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,64 +9,75 @@ public class CommonLights : MonoBehaviour
     public bool isTriggered;
     public bool active;
     public bool isPowered;
-    public int firtButton;
+    public int firstButton;
     public int secondButton;
 
-    public UnityEvent e_OnCollision;
-    public UnityEvent<bool> e_OnActive;
-    protected void Callback()
-    {
-        if (e_OnCollision == null)
-            e_OnCollision = new UnityEvent();
-        if (e_OnActive == null)
-            e_OnActive = new UnityEvent<bool>();
-
-        e_OnCollision.AddListener(OnCollision);
-        e_OnActive.AddListener(OnActive);
-    }
-
+    UnityEvent e_OnCollision = new UnityEvent();
+    UnityEvent e_OnActive = new UnityEvent();
     void Start()
     {
         isTriggered = false;
         active = false;
         isPowered = false;
-        firtButton = 0;
+        firstButton = 0;
         secondButton = 0;
 
-        Callback();
+        e_OnCollision.AddListener(OnCollision);
+        e_OnActive.AddListener(OnActive);
     }
-
-    private void OnCollision(bool status)
+    void OnCollision()
     {
-        isTriggered = status;
-        GameObject.Find(gameObject.name + "/UI").GetComponent<Canvas>().enabled = status;
+        if (isTriggered)
+        {
+            if (active)
+            {
+                transform.GetChild(firstButton).GetComponent<MeshRenderer>().material.color = Color.green;
+                Debug.Log("Active Green");
+            }
+            else
+            {
+                transform.GetChild(firstButton).GetComponent<MeshRenderer>().material.color = Color.red;
+                Debug.Log("Active Red");
+            }
+            if (isPowered)
+            {
+                transform.GetChild(secondButton).GetComponent<MeshRenderer>().material.color = Color.green;
+                Debug.Log("Powered Green");
+            }
+            else
+            {
+                transform.GetChild(secondButton).GetComponent<MeshRenderer>().material.color = Color.white;
+                Debug.Log("Powered Red");
+            }
+        }
     }
-
-    private void OnActive()
+    void OnActive()
     {
-        if (Input.GetKeyDown("E"))
-            active = true;
-        else
-            active = false;
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            Debug.Log("Key pressed");
+        }
     }
-
     void Update()
     {
         OnActive();
         OnCollision();
-        if (isTriggered)
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+        
+        if (collision.gameObject.tag == "Human")
         {
-            if (active == true)
-                transform.GetChild(firtButton).GetComponent<MeshRenderer>().material.color = Color.green;
-            else
-                transform.GetChild(firtButton).GetComponent<MeshRenderer>().material.color = Color.red;
-
-            if (isPowered == true)
-                transform.GetChild(secondButton).GetComponent<MeshRenderer>().material.color = Color.green;
-            else
-                transform.GetChild(secondButton).GetComponent<MeshRenderer>().material.color = Color.red;
+            Debug.Log("Collision Enter");
+            isTriggered = true;
         }
-            
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Human")
+        {
+            Debug.Log("Collision Exit");
+            isTriggered = false;
+        }
     }
 }
-*/
