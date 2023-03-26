@@ -10,7 +10,7 @@ public class CommonGenerator : CommonDevice
     void Start()    
     {
         generatorStart = GetComponent<AudioSource>();
-        active = false;
+        isActive = false;
         fuel = 100;
         production = 100;
         type = Type.Generator;
@@ -20,14 +20,14 @@ public class CommonGenerator : CommonDevice
     }
     public virtual void GeneratePower()
     {
-        if (fuel > 0 && active)
+        if (fuel > 0 && isActive)
         {
             if (!generatorStart.isPlaying)
                 generatorStart.Play(0);
             float tmp = production;
             foreach (CommonDevice cd in slot)
             {
-                if (cd.active)
+                if (cd.isActive)
                 {
                     cd.e_OnGenerating.Invoke(tmp);
                     tmp -= cd.powerNeed;
@@ -35,7 +35,7 @@ public class CommonGenerator : CommonDevice
                 }
             }
             fuel -= 0.02f;
-            m_StatusText[1] = "\n<color=white>Fuel: <color=black>" + (int)fuel;
+            m_StatusText[1] = "<color=white>Fuel: <color=green>" + (int)fuel;
         }
         else
         {
@@ -46,22 +46,22 @@ public class CommonGenerator : CommonDevice
     }
     protected override void Indication()
     {
-        if (inArea) UpdateOverlay();
-        if (active) {
-            transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.green;
-            Transform line = transform.GetChild(6);
+        if (isArea) UpdateOverlay();
+        if (isActive) {
+            firstButton.GetComponent<MeshRenderer>().material.color = Color.green;
+            Transform line = secondButton;
             line.localScale = new Vector3(line.localScale.x, line.localScale.y, (-17 * fuel) / 100);
             line.localPosition = new Vector3(line.localPosition.x, ((0.27f * fuel) / 100), line.localPosition.z);
         }
         else {
-            transform.GetChild(5).GetComponent<MeshRenderer>().material.color = Color.red;
+            firstButton.GetComponent<MeshRenderer>().material.color = Color.red;
         }
         if (fuel < 1)
         {
-            transform.GetChild(6).GetComponent<MeshRenderer>().material.color = Color.black;
+            secondButton.GetComponent<MeshRenderer>().material.color = Color.black;
         }
         else
-            transform.GetChild(6).GetComponent<MeshRenderer>().material.color = Color.red;
+            secondButton.GetComponent<MeshRenderer>().material.color = Color.red;
         
     }
 

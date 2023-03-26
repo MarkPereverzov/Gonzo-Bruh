@@ -6,9 +6,14 @@ using UnityEngine.Events;
 
 public class CommonLights : MonoBehaviour
 {
+    [Header("Lights Settings")]
+    [HideInInspector]
     public bool isTriggered;
+    [HideInInspector]
     public bool active;
+    [HideInInspector]
     public bool isPowered;
+    [Header("Lights Settings")]
     public int firstButton;
     public int secondButton;
 
