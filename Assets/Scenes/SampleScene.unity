@@ -241,21 +241,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8669013648867860455, guid: 499d643ebd287ec42a89dd5c90ee7704, type: 3}
   m_PrefabInstance: {fileID: 1613293506}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &580653266
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 580653265}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57941bd30a1e2b47a533e2892a96d10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  holdArea: {fileID: 752205674}
-  pickupRange: 5
-  pickupForce: 150
 --- !u!114 &580653267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -795,7 +780,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8399191497190056062, guid: 499d643ebd287ec42a89dd5c90ee7704, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 499d643ebd287ec42a89dd5c90ee7704, type: 3}
 --- !u!4 &1866648335 stripped
 Transform:
@@ -962,6 +948,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5098066315453248947, guid: 9b169be6417a96a4e854f704971e2d1c, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 5098066315453248947, guid: 9b169be6417a96a4e854f704971e2d1c, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5098066315906663057, guid: 9b169be6417a96a4e854f704971e2d1c, type: 3}
       propertyPath: m_Name
       value: Mashine
@@ -1391,6 +1385,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8542188050824117745, guid: 07014f8b54487e641837f880e0cfc3b5, type: 3}
+      propertyPath: m_Mass
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 8542188050824117754, guid: 07014f8b54487e641837f880e0cfc3b5, type: 3}
       propertyPath: firstButton
       value: 
@@ -1403,6 +1401,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Generator
       objectReference: {fileID: 0}
+    - target: {fileID: 8542188051468447256, guid: 07014f8b54487e641837f880e0cfc3b5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542188051468447256, guid: 07014f8b54487e641837f880e0cfc3b5, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07014f8b54487e641837f880e0cfc3b5, type: 3}
 --- !u!1001 &9125588533998754874
@@ -1412,6 +1418,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 9125588534735504578, guid: ce418d8a12806a346a51e97ff9ae8fac, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125588534735504578, guid: ce418d8a12806a346a51e97ff9ae8fac, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9125588535487519330, guid: ce418d8a12806a346a51e97ff9ae8fac, type: 3}
+      propertyPath: m_Mass
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 9125588535487519331, guid: ce418d8a12806a346a51e97ff9ae8fac, type: 3}
       propertyPath: m_RootOrder
       value: 8

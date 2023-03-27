@@ -21,6 +21,8 @@ public class CommonDevice : MonoBehaviour
 
     [Header("Global Settings")]
     [HideInInspector]
+    public int id;
+    [HideInInspector]
     public bool isPowered;
     [HideInInspector]
     public bool isArea;
@@ -62,8 +64,9 @@ public class CommonDevice : MonoBehaviour
         e_OnGenerating.AddListener(OnGenerating);
 
         m_StatusText = new string[10];
-
-        m_StatusText[0] = "<align=left>Activated: <color=red>OFF";
+        id = Random.Range(1000, 9999);
+        m_StatusText[0] = "<align=center><color=white>#" + id;
+        m_StatusText[1] = "Activated: <color=red>OFF";
     }
     void Start()
     {
@@ -72,7 +75,9 @@ public class CommonDevice : MonoBehaviour
         isActive = false;
 
         InitEvents();
-        m_StatusText[1] = "Powered: <color=red>False";
+        m_StatusText[2] = "Powered: <color=red>False";
+
+        m_StatusText[1] = "Activated: <color=red>OFF";
     }
 
     protected void UpdateOverlay()
@@ -114,12 +119,12 @@ public class CommonDevice : MonoBehaviour
         if (isActive)
         {
             isActive = false;
-            m_StatusText[0] = "<align=left>Activated: <color=red>OFF";
+            m_StatusText[1] = "<align=left>Activated: <color=red>OFF";
         }
         else
         {
             isActive = true;
-            m_StatusText[0] = "<align=left>Activated: <color=green>ON";
+            m_StatusText[1] = "<align=left>Activated: <color=green>ON";
         }
     }
     protected void OnConnect(CommonDevice cd)
@@ -140,10 +145,10 @@ public class CommonDevice : MonoBehaviour
             slot.Add(cd);
             Debug.Log("Added element" + cd.type);
         }
-        if (m_StatusText[2] == null)
-            m_StatusText[2] = "Connected with: <color=green>" + cd.type;
+        if (m_StatusText[3] == null)
+            m_StatusText[3] = "Connected with: <color=green>" + cd.type;
         else
-            m_StatusText[2] += "<#ffffff>, <color=green>" + cd.type;
+            m_StatusText[3] += "<#ffffff>, <color=green>" + cd.type;
     }
     protected void OnGenerating(float powerCount)
     {
@@ -151,12 +156,12 @@ public class CommonDevice : MonoBehaviour
         if (powerGet >= powerNeed)
         {
             isPowered = true;
-            m_StatusText[1] = "Powered: <color=green>True <sprite index=3>";
+            m_StatusText[2] = "Powered: <color=green>True";
         }
         else
         {
             isPowered = false;
-            m_StatusText[1] = "Powered: <color=red>False";
+            m_StatusText[2] = "Powered: <color=red>False";
         }
         Debug.Log("generating");
     }

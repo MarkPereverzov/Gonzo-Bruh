@@ -35,7 +35,7 @@ public class CommonGenerator : CommonDevice
                 }
             }
             fuel -= 0.02f;
-            m_StatusText[1] = "<color=white>Fuel: <color=green>" + (int)fuel;
+            m_StatusText[2] = "<color=white>Fuel: <color=green>" + (int)fuel;
         }
         else
         {
