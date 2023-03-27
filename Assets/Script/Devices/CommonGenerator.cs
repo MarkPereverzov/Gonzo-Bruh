@@ -16,6 +16,8 @@ public class CommonGenerator : CommonDevice
         type = Type.Generator;
 
         InitEvents();
+        m_StatusText[0] = "<align=center><color=white>#" + id + "\n";
+        m_StatusText[1] = "<align=left>Activated: <color=red>OFF";
 
     }
     public virtual void GeneratePower()
@@ -27,13 +29,18 @@ public class CommonGenerator : CommonDevice
             float tmp = production;
             foreach (CommonDevice cd in slot)
             {
-                if (cd.isActive)
+                if (cd.type == Type.Adapter)
                 {
-                    cd.e_OnGenerating.Invoke(tmp);
-                    tmp -= cd.powerNeed;
-                    tmp = tmp < 0 ? 0 : tmp;
+                    if (cd.isActive)
+                    {
+                        cd.OnGenerating(tmp);
+                        Debug.Log(tmp);
+                        tmp -= cd.powerHyi;
+                        tmp = tmp < 0 ? 0 : tmp;
+                    }
                 }
             }
+
             fuel -= 0.02f;
             m_StatusText[2] = "<color=white>Fuel: <color=green>" + (int)fuel;
         }
@@ -44,33 +51,20 @@ public class CommonGenerator : CommonDevice
                 cd.e_OnGenerating.Invoke(0);
         }
     }
-    protected override void Indication()
+    void GeneratorIndication()
     {
         if (isArea) UpdateOverlay();
-        if (isActive) {
+        if (isActive)
+        {
             firstButton.GetComponent<MeshRenderer>().material.color = Color.green;
             Transform line = secondButton;
             line.localScale = new Vector3(line.localScale.x, line.localScale.y, (-17 * fuel) / 100);
             line.localPosition = new Vector3(line.localPosition.x, ((0.27f * fuel) / 100), line.localPosition.z);
         }
-        else {
-            firstButton.GetComponent<MeshRenderer>().material.color = Color.red;
-        }
-        if (fuel < 1)
-        {
-            secondButton.GetComponent<MeshRenderer>().material.color = Color.black;
-        }
-        else
-            secondButton.GetComponent<MeshRenderer>().material.color = Color.red;
-        
-    }
-
-    void Update()
-    {
-        Indication();
     }
     void FixedUpdate()
     {
         GeneratePower();
+        GeneratorIndication();
     }
 }

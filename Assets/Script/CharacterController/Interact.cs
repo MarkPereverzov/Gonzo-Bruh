@@ -6,27 +6,28 @@ using UnityEngine;
 
 public class Interact : MonoBehaviour
 {
+    public Transform eyeObject;
     public Material material;
+
     private Collider currentCollision;
-    private bool isArea;
     private CommonDevice choosenDevice;
+    private bool isArea;
 
     void Start()
     {
         isArea = false;
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (isArea)
         {
             CommonDevice cd = currentCollision.transform.GetComponent<CommonDevice>();
+            GameObject.Find(cd.name + "/UI").transform.rotation = new Quaternion(0, eyeObject.rotation.y, 0, eyeObject.rotation.w);
             if (Input.GetKeyDown("e")) 
             {
                 cd.e_OnActivation.Invoke();
             }
-            if (Input.GetKeyDown("r"))
+            if (Input.GetKeyDown("f"))
             {
                 Debug.Log("Using " + cd.type);
                 if (choosenDevice == null)
