@@ -10,8 +10,8 @@ namespace GradientsTutorial
         [SerializeField] Gradient directionalLightGradient;
         [SerializeField] Gradient ambientLightGradient;
 
-        [SerializeField, Range(1, 3600)] float timeDayInSeconds = 60;
-        [SerializeField, Range(0f, 1f)] float timeProgress;
+        [SerializeField, Range(1, 720)] float timeDayInSeconds = 720;
+        [SerializeField, Range(0f, 1f)] float timeProgress = 0.5f;
 
         [SerializeField] Light dirLight;
 
