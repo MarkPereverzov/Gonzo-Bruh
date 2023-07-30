@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CommonGenerator : CommonDevice
 {
+    [HideInInspector]
+    public const float FUEL_MAX = 100f;
     public float fuel;
     public float production;
     private AudioSource generatorStart;
