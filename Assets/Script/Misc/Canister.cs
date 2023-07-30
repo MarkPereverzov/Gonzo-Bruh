@@ -11,6 +11,10 @@ public class Canister : Interactable
     public float capacity = 100f;
     public float filling_speed = 0.5f;
 
+    private Context context;
+
+    public bool fill = false;
+
     [Header("Lights Settings")]
     public Transform verticalIndicator;
     // Start is called before the first frame update
@@ -23,7 +27,7 @@ public class Canister : Interactable
                 capacity -= filling_speed;
                 generator.fuel += filling_speed;
             }
-            Debug.Log("Generator storage is full");
+            else Debug.Log("Generator storage is full");
         }
         else
         {
@@ -32,8 +36,21 @@ public class Canister : Interactable
     }
     public override void Activate(Context ctx)
     {
+        context = ctx;
         if (ctx.currentDevice != null)
-            FillDevice((CommonGenerator)ctx.currentDevice);
+        {
+            if (fill)
+                fill = false;
+            else
+                fill = true;
+        }
+        else
+            fill = false;
+    }
+    public override void Indicate()
+    {
+        //verticalIndicator.localScale = new Vector3(verticalIndicator.localScale.x, (capacity / 100), verticalIndicator.localScale.z) ;
+        //verticalIndicator.position =  new Vector3(verticalIndicator.position.x,-1f + (capacity/100),verticalIndicator.position.z);
     }
     public void FillCanister()
     { 
@@ -41,12 +58,18 @@ public class Canister : Interactable
     }
     void Start()
     {
-        
+        m_StatusText = new string[10];
+        id = Random.Range(100, 999);
+        m_StatusText[0] = "<align=center><color=white>#" + id + "\n";
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        m_StatusText[0] = capacity.ToString();
+        m_StatusText[1] = capacity.ToString();
+        UpdateOverlay();
+        if(fill)
+            FillDevice((CommonGenerator)context.currentDevice);
+        //Indicate();
     }
 }

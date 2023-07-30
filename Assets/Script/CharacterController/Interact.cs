@@ -17,10 +17,13 @@ public class Interact : MonoBehaviour
     
     private bool isArea;
     public Context context;
+    
 
     void Start()
     {
         isArea = false;
+        context = new Context();
+        context.human = this;
     }
     private void PickUp(Interactable prop)
     {
@@ -28,31 +31,51 @@ public class Interact : MonoBehaviour
     }
     private void Drop()
     {
+        context.hand.collider.isTrigger = false;
         context.hand = null;
+        //context.hand.trigger.enabled = true;
     }
 
     private void KeepProp()
     {
-        context.hand.transform.position = transform.position * 1.2f;
+        if (context.hand != null)
+        {
+            var hands = GameObject.Find(gameObject.name + "/Armature/Root_M/Spine1_M/Spine2_M/Chest_M/Scapula_R/Shoulder_R/Elbow_R/Wrist_R/Item");
+            //Debug.Log(hands.transform.position);
+            context.hand.transform.position = hands.transform.position;
+            //context.hand.transform.position = GameObject.Find(gameObject.name + "/Mesh/Body/Body_Hands").transform.position;
+            context.hand.transform.rotation = transform.rotation;
+            context.hand.collider.isTrigger = true;
+            context.hand.OnShowHint(false);
+                
+            //Debug.Log(rhand_point.position);
+        }
+            
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (context.hand != null)
         {
-            if (Input.GetKeyDown("e"))
+            if (Input.GetKeyDown("q"))
             {
                 context.hand.Activate(context);
             }
         }
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown("r"))
         {
+            Debug.Log("Key pressed F");
             if (context.hand == null){
                 PickUp(observeableProp);
+                Debug.Log("Picked up prop !!");
             }
             else {
                 Drop();
             }
+        }
+        if(observeableProp != null)
+        {
+            observeableProp.OnShowHint(true);
         }
         KeepProp();
         if (isArea)
@@ -99,10 +122,12 @@ public class Interact : MonoBehaviour
         }
         else
         {
+            Debug.Log("Entered collision");
             var prop = collision.gameObject.GetComponent<Interactable>();
             if (prop != null)
             {
                 observeableProp = prop;
+                observeableProp.OnShowHint(true);
             }
         }
         //Debug.Log("Trigger enter type " + collision.transform.GetComponent<CommonDevice>().type);
@@ -122,7 +147,11 @@ public class Interact : MonoBehaviour
             var prop = collision.gameObject.GetComponent<Interactable>();
             if (prop != null)
             {
-                if (prop == observeableProp) observeableProp = null;
+                if (prop == observeableProp)
+                {
+                    prop.OnShowHint(false);
+                    observeableProp = null;
+                }
             }
         }
     }

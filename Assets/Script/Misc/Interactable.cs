@@ -7,6 +7,10 @@ using UnityEngine.Events;
 public abstract class Interactable : MonoBehaviour
 {
     protected string[] m_StatusText;
+    public Collider collider;
+    public Collider trigger;
+    [HideInInspector]
+    public int id;
 
     public void OnShowHint(bool state)
     {
@@ -22,4 +26,5 @@ public abstract class Interactable : MonoBehaviour
         GameObject.Find(gameObject.name + "/UI").transform.GetChild(1).transform.GetComponent<TextMeshProUGUI>().SetText(outMessage);
     }
     public abstract void Activate(Context ctx);
+    public abstract void Indicate();
 }
