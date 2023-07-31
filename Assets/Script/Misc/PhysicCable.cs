@@ -14,7 +14,7 @@ namespace HPhysic
         public int flag = 0;
             
         private float springForce = 200;
-        private float brakeLengthMultiplier = 2f;
+        //private float brakeLengthMultiplier = 2f;
         private float minBrakeTime = 1f;
         private float brakeLength;
         private float timeToBrake = 1f;
@@ -68,7 +68,7 @@ namespace HPhysic
 
                 cConnector.transform.position = CountConPos(lastPos, newPos);
                 Vector3 tmp = CountSizeOfCon(lastPos, newPos);
-                Debug.Log(tmp.z);
+                //Debug.Log(tmp.z);
                 cConnector.transform.localScale = tmp;
                 cConnector.transform.rotation = CountRoationOfCon(lastPos, newPos);
                 lastPos = newPos;
@@ -115,7 +115,7 @@ namespace HPhysic
             cConnector.transform.position = CountConPos(cPoint.transform.position, end.transform.position);
             //cConnector.transform.localScale = CountSizeOfCon(cPoint.transform.position, end.transform.position);
             Vector3 tmp = CountSizeOfCon(cPoint.transform.position, end.transform.position);
-            Debug.Log(tmp.z);
+            //Debug.Log(tmp.z);
             cConnector.transform.localScale = tmp;
             cConnector.transform.rotation = CountRoationOfCon(cPoint.transform.position, end.transform.position);
 
@@ -177,7 +177,7 @@ namespace HPhysic
             {
                 AddPoint();
             }
-            Debug.Log("Suka");
+            //Debug.Log("Suka");
         }
 
         private void FixedUpdate()
@@ -186,7 +186,7 @@ namespace HPhysic
             bool isConnected = false;//startConnector.IsConnected || endConnector.IsConnected;
 
             int numOfParts = connectors.Count;
-            Debug.Log(numOfParts);
+            //Debug.Log(numOfParts);
             Transform lastPoint = points[0];
             for (int i = 0; i < numOfParts-1; i++)
             {
@@ -202,9 +202,9 @@ namespace HPhysic
                 {
                     connector.rotation = Quaternion.LookRotation(nextPoint.position - connector.position);
                     Vector3 tmp = CountSizeOfCon(lastPoint.position, nextPoint.position);
-                    Debug.Log(tmp.z);
-                    Debug.Log(lastPoint.position);
-                    Debug.Log(nextPoint.position);
+                    //Debug.Log(tmp.z);
+                    //Debug.Log(lastPoint.position);
+                    //Debug.Log(nextPoint.position);
                     connector.localScale = tmp;
                 }
 

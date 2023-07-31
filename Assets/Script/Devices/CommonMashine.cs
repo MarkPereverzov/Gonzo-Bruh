@@ -18,7 +18,7 @@ public class CommonMashine : CommonDevice
     {
         InitEvents();
     }
-    protected void OnGenerating(float powerCount)
+    protected new void OnGenerating(float powerCount)
     {
         powerGet = powerCount;
         if (powerGet >= powerHyi)
