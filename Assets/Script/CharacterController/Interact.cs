@@ -32,7 +32,10 @@ public class Interact : MonoBehaviour
     private void Drop()
     {
         context.hand.collider.isTrigger = false;
+        //var pos = context.hand.transform.position;
+        var rigidbody = context.hand.GetComponent<Rigidbody>();
         context.hand = null;
+        rigidbody.Sleep();
         //context.hand.trigger.enabled = true;
     }
 
@@ -40,12 +43,14 @@ public class Interact : MonoBehaviour
     {
         if (context.hand != null)
         {
+            context.hand.collider.isTrigger = true;
+            context.hand.transform.rotation = transform.rotation;
             var hands = GameObject.Find(gameObject.name + "/Armature/Root_M/Spine1_M/Spine2_M/Chest_M/Scapula_R/Shoulder_R/Elbow_R/Wrist_R/Item");
             //Debug.Log(hands.transform.position);
             context.hand.transform.position = hands.transform.position;
             //context.hand.transform.position = GameObject.Find(gameObject.name + "/Mesh/Body/Body_Hands").transform.position;
-            context.hand.transform.rotation = transform.rotation;
-            context.hand.collider.isTrigger = true;
+            
+            
             context.hand.OnShowHint(false);
                 
             //Debug.Log(rhand_point.position);
@@ -55,6 +60,11 @@ public class Interact : MonoBehaviour
 
     void Update()
     {
+        
+        if(observeableProp != null)
+        {
+            observeableProp.OnShowHint(true);
+        }
         if (context.hand != null)
         {
             if (Input.GetKeyDown("q"))
@@ -65,19 +75,19 @@ public class Interact : MonoBehaviour
         if (Input.GetKeyDown("r"))
         {
             Debug.Log("Key pressed F");
-            if (context.hand == null){
+            if (context.hand == null)
+            {
                 PickUp(observeableProp);
                 Debug.Log("Picked up prop !!");
             }
-            else {
+            else
+            {
                 Drop();
             }
         }
-        if(observeableProp != null)
-        {
-            observeableProp.OnShowHint(true);
-        }
         KeepProp();
+        if(observeableProp != null) 
+            GameObject.Find(observeableProp.name + "/UI").transform.rotation = new Quaternion(0, eyeObject.rotation.y, 0, eyeObject.rotation.w);
         if (isArea)
         {
             CommonDevice cd = currentCollision.transform.GetComponent<CommonDevice>();
