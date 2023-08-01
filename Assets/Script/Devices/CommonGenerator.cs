@@ -44,7 +44,7 @@ public class CommonGenerator : CommonDevice
             }
 
             fuel -= 0.02f;
-            m_StatusText[2] = "<color=white>Fuel: <color=green>" + (int)fuel;
+            
         }
         else
         {
@@ -63,6 +63,7 @@ public class CommonGenerator : CommonDevice
             line.localScale = new Vector3(line.localScale.x, line.localScale.y, (-17 * fuel) / 100);
             line.localPosition = new Vector3(line.localPosition.x, ((0.27f * fuel) / 100), line.localPosition.z);
         }
+        m_StatusText[2] = "<color=white>Fuel: <color=green>" + (int)fuel;
     }
     void FixedUpdate()
     {
