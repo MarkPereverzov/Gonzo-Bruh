@@ -1,11 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 public class MenuAppearScript : MonoBehaviour
 {
 
     public GameObject Inventory;
     public GameObject Menu;
+    public GameObject Process;
+    public GameObject Indication;
 
     [HideInInspector]
     public int Health = 0;
@@ -19,7 +22,10 @@ public class MenuAppearScript : MonoBehaviour
 
     private void Start()
     {
-        Text = Health;
+        Text = Health.ToString();
+        Inventory.SetActive(false);
+        Menu.SetActive(false);
+        Process.SetActive(false);
     }
     void Update()
     {

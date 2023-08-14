@@ -28,9 +28,12 @@ public class Interact : MonoBehaviour
     private void PickUp(Interactable prop)
     {
         context.hand = prop;
+        Debug.Log("Picked up");
     }
     private void Drop()
     {
+        context.hand.collider.enabled = true;
+        context.hand.trigger.enabled = true;
         context.hand.collider.isTrigger = false;
         //var pos = context.hand.transform.position;
         var rigidbody = context.hand.GetComponent<Rigidbody>();
@@ -43,9 +46,11 @@ public class Interact : MonoBehaviour
     {
         if (context.hand != null)
         {
-            context.hand.collider.isTrigger = true;
+            //context.hand.collider.isTrigger = true;
+            context.hand.collider.enabled = false;
+            context.hand.trigger.enabled = false;
             context.hand.transform.rotation = transform.rotation;
-            var hands = GameObject.Find(gameObject.name + "/Armature/Root_M/Spine1_M/Spine2_M/Chest_M/Scapula_R/Shoulder_R/Elbow_R/Wrist_R/Item");
+            var hands = GameObject.Find(gameObject.name + "/Armature/Root_M/Spine1_M/Spine2_M/Chest_M/Scapula_R/Shoulder_R/Elbow_R/Wrist_R/MiddleFinger1_R");
             //Debug.Log(hands.transform.position);
             context.hand.transform.position = hands.transform.position;
             //context.hand.transform.position = GameObject.Find(gameObject.name + "/Mesh/Body/Body_Hands").transform.position;
@@ -67,7 +72,7 @@ public class Interact : MonoBehaviour
         }
         if (context.hand != null)
         {
-            if (Input.GetKeyDown("q"))
+            if (Input.GetKeyDown("y"))
             {
                 context.hand.Activate(context);
             }
@@ -77,8 +82,8 @@ public class Interact : MonoBehaviour
             Debug.Log("Key pressed F");
             if (context.hand == null)
             {
-                PickUp(observeableProp);
-                Debug.Log("Picked up prop !!");
+                if(observeableProp != null)
+                    PickUp(observeableProp);
             }
             else
             {
@@ -104,9 +109,12 @@ public class Interact : MonoBehaviour
                     choosenDevice = cd;
                 else 
                 {
-                    choosenDevice.e_OnConnect.Invoke(context.currentDevice);
-                    context.currentDevice.e_OnConnect.Invoke(choosenDevice);
-                    choosenDevice = null;
+                    if (choosenDevice.type != context.currentDevice.type)
+                    {
+                        choosenDevice.e_OnConnect.Invoke(context.currentDevice);
+                        context.currentDevice.e_OnConnect.Invoke(choosenDevice);
+                        choosenDevice = null;
+                    }
                 }
             }
             //cd.transform.GetChild(8).transform.GetChild(0).transform.GetComponent<CanvasRenderer>().GetMaterial().color = new Color(0f, 0f, 0f, 0.5490196f);

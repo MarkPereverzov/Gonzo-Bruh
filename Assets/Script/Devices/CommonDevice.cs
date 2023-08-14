@@ -13,6 +13,13 @@ public class CommonDevice : MonoBehaviour
         Generator,
         Adapter
     }
+    public enum Voltage
+    { 
+        FIRST,
+        SECOND,
+        THIRD,
+        FOURTH
+    }
     [Header("Lights Settings")]
     public Transform firstButton;
     public Transform secondButton;
@@ -29,13 +36,14 @@ public class CommonDevice : MonoBehaviour
     public bool isPowered;
 
     public Type type;
+    public Voltage input_volt_level;
 
     [HideInInspector]
     public float powerHyi;
     [HideInInspector]
     public float powerGet;
 
-    private CommonGenerator energySlot;
+    protected CommonDevice energySlot;
     public List<CommonDevice> slot;
 
     public string[] m_StatusText;
@@ -65,18 +73,6 @@ public class CommonDevice : MonoBehaviour
         m_StatusText = new string[10];
         id = Random.Range(1000, 9999);
     }
-    void Start()
-    {
-        isPowered = false;
-        isActive = false;
-        powerHyi = 80;
-
-        InitEvents();
-
-        m_StatusText[0] = "<align=center><color=white>#" + id + "\n";
-        m_StatusText[1] = "<align=left>Activated: <color=red>OFF";
-        m_StatusText[2] = "Power: <color=red>" + (float)powerGet + "<color=white>/<color=green>" + powerHyi;
-    }
 
     public void UpdateOverlay()
     {
@@ -103,15 +99,11 @@ public class CommonDevice : MonoBehaviour
     public virtual void OnGeneratingText(float powerCount)
     {
         powerGet += powerCount;
-        if (powerGet > powerHyi)
-        {
-            powerGet = powerHyi;
-        }
         if (powerGet >= powerHyi)
         {
+            powerGet = powerHyi;
             isPowered = true;
             m_StatusText[2] = "Power: <color=green>" + (float)powerGet + "<color=white>/<color=green>" + powerHyi;
-
         }
         else
         {
@@ -123,7 +115,7 @@ public class CommonDevice : MonoBehaviour
     {
         OnGeneratingText(powerCount);
     }
-    protected void OnConnect(CommonDevice cd)
+    protected virtual void OnConnect(CommonDevice cd)
     {
         Debug.Log("Called Connect" + type);
         if (cd.type == Type.Generator)

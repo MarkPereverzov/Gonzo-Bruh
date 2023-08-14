@@ -34,4 +34,23 @@ public class CommonMashine : CommonDevice
         }
         Debug.Log("generating");
     }
+    protected override void OnConnect(CommonDevice cd)
+    {
+        Debug.Log("Called Connect" + type);
+        if (cd.type != Type.Machine)
+        {
+            if (cd.type == Type.Generator)
+            {
+                energySlot = (CommonGenerator)cd;
+            }
+            else if (cd.type == Type.Adapter)
+            {
+                energySlot = (CommonAdapter)cd;
+            }
+            if (m_StatusText[4] == null)
+                m_StatusText[4] = "Connected with: <color=green>" + cd.type + "#" + cd.id + " " + cd.input_volt_level;
+            else
+                m_StatusText[4] += "<#ffffff>, <color=green>" + cd.type + "#" + cd.id + " " + cd.input_volt_level;
+        }
+    }
 }

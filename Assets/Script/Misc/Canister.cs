@@ -68,8 +68,11 @@ public class Canister : Interactable
     {
         m_StatusText[1] = capacity.ToString();
         UpdateOverlay();
-        if(fill)
-            FillDevice((CommonGenerator)context.currentDevice);
+        if (fill)
+        {
+            if(context.currentDevice.type == CommonDevice.Type.Generator) 
+                FillDevice((CommonGenerator)context.currentDevice);
+        }
         //Indicate();
     }
 }
